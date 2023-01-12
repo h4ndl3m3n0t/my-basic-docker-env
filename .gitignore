@@ -1,0 +1,8 @@
+#history folder
+.history
+
+#mariadb files
+mariadb
+
+#all insidex the src folder
+src/*

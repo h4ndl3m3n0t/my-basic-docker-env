@@ -1,0 +1,51 @@
+#reference: https://www.youtube.com/watch?v=5N6gTVCG_rw
+version: "3"
+
+networks:
+  yii:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "8088:80"
+    volumes:
+      - ./src/blog:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - mariadb
+    networks:
+      - yii
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+    ports:
+      - "4306:3306"
+    tty: true
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    environment:
+      MARIADB_DATABASE: db_test
+      MARIADB_USER: seeker
+      MARIADB_PASSWORD: s33k3r
+      MARIADB_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mariadb
+    networks:
+      - yii
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    volumes:
+      - ./src/blog:/var/www/html
+    ports:
+      - "9090:9000"
+    networks:
+      - yii
