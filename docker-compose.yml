@@ -11,7 +11,7 @@ services:
     ports:
       - "8088:80"
     volumes:
-      - ./src/blog:/var/www/html
+      - ./src:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
@@ -40,11 +40,11 @@ services:
 
   php:
     build:
-      context: .
+      context: ./php/
       dockerfile: Dockerfile
     container_name: php
     volumes:
-      - ./src/blog:/var/www/html
+      - ./src:/var/www/html
     ports:
       - "9090:9000"
     networks:
