@@ -4,7 +4,7 @@
 FROM php:8.1-fpm-alpine
 
 #copy custom php.ini to docker image directory
-COPY ./php.ini /usr/local/etc/php/
+COPY ./php/php.ini /usr/local/etc/php/
 
 #install all the necessary goodies
 RUN apk add --no-cache libpng-dev postgresql-dev icu-data-full freetype freetype-dev

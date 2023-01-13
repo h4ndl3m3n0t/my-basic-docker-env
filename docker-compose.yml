@@ -16,6 +16,7 @@ services:
     depends_on:
       - php
       - mariadb
+      - redis
     networks:
       - yii
 
@@ -40,12 +41,29 @@ services:
 
   php:
     build:
-      context: ./php/
+      context: .
       dockerfile: Dockerfile
     container_name: php
     volumes:
       - ./src:/var/www/html
     ports:
       - "9090:9000"
+    networks:
+      - yii
+
+  #composer:
+  #  build:
+  #    context: .
+  #    dockerfile: composer-dockerfile
+  #  container_name: composer
+  #  volumes:
+  #    - ./src/blog:/app #change here the path for your yii project
+  #  networks:
+  #    - yii
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "7389:6389"
     networks:
       - yii
