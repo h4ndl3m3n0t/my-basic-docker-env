@@ -82,6 +82,6 @@ services:
     image: redis:alpine
     container_name: yii_redis
     ports:
-      - "7389:6389"
+      - "7379:6379"
     networks:
       - yii
