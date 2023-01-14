@@ -2,7 +2,7 @@
 .history
 
 #mariadb files
-mariadb
+docker
 
 #all insidex the src folder
 src/*

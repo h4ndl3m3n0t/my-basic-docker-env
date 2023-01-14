@@ -5,9 +5,11 @@ networks:
   yii:
 
 services:
+
+#server
   nginx:
     image: nginx:stable-alpine
-    container_name: nginx
+    container_name: yii_nginx
     ports:
       - "8088:80"
     volumes:
@@ -15,35 +17,59 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
-      - mariadb
+      #- mariadb
+      - postgresql
       - redis
     networks:
       - yii
 
-  mariadb:
-    image: mariadb:latest
-    container_name: mariadb
+
+  #for small to medium projects
+  #mariadb:
+  #  image: mariadb:latest
+  #  container_name: mariadb
+  #  restart: unless-stopped
+  #  ports:
+  #    - "4306:3306"
+  #  tty: true
+  #  volumes:
+  #    - ./mariadb:/var/lib/mysql
+  #  environment:
+  #    MARIADB_DATABASE: db_test
+  #    MARIADB_USER: seeker
+  #    MARIADB_PASSWORD: seeker
+  #    MARIADB_ROOT_PASSWORD: secret
+  #    SERVICE_TAGS: dev
+  #    SERVICE_NAME: mariadb
+  #  networks:
+  #    - yii
+
+  #for complex web application (preferred)
+  #database
+  postgresql:
+    image: postgres:alpine
+    container_name: yii_postgresql
     restart: unless-stopped
     ports:
-      - "4306:3306"
+      - "6432:5432"
     tty: true
     volumes:
-      - ./mariadb:/var/lib/mysql
-    environment:
-      MARIADB_DATABASE: db_test
-      MARIADB_USER: seeker
-      MARIADB_PASSWORD: s33k3r
-      MARIADB_ROOT_PASSWORD: secret
+      - ./postgresql:/var/lib/postgresql
+    environment: #change your environment here
+      POSTGRES_DB: db_test
+      POSTGRES_USER: seeker
+      POSTGRES_PASSWORD: seeker
       SERVICE_TAGS: dev
-      SERVICE_NAME: mariadb
+      SERVICE_NAME: postgresql
     networks:
       - yii
 
+#language
   php:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: php
+    container_name: yii_php
     volumes:
       - ./src:/var/www/html
     ports:
@@ -51,8 +77,10 @@ services:
     networks:
       - yii
 
+#cache
   redis:
     image: redis:alpine
+    container_name: yii_redis
     ports:
       - "7389:6389"
     networks:
