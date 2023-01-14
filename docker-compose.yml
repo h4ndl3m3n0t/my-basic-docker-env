@@ -54,7 +54,7 @@ services:
       - "6432:5432"
     tty: true
     volumes:
-      - ./postgresql:/var/lib/postgresql
+      - ./docker/postgresql:/var/lib/postgresql
     environment: #change your environment here
       POSTGRES_DB: db_test
       POSTGRES_USER: seeker
