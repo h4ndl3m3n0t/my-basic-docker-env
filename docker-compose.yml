@@ -21,6 +21,7 @@ services:
       #- mariadb
       - postgresql
       - redis
+      - open-bucket
     networks:
       - yii
 
@@ -82,7 +83,20 @@ services:
   redis:
     image: redis:alpine
     container_name: yii_redis
+    restart: unless-stopped
     ports:
       - "7379:6379"
+    networks:
+      - yii
+
+#ftp server for storing files (preferrably images or videos)
+  open-bucket:
+    image: metabrainz/docker-anon-ftp:latest
+    container_name: yii_bucket
+    restart: unless-stopped
+    volumes:
+      - ./docker/ftp:/var/ftp:ro
+    ports:
+      - "2021:21"
     networks:
       - yii
