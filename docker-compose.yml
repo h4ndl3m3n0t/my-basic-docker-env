@@ -45,7 +45,7 @@ services:
   #  networks:
   #    - yii
 
-# database for capstone projects
+# database for common projects
   mariadb:
     image: mariadb:latest
     container_name: yii_mariadb
