@@ -20,6 +20,7 @@ services:
       - php
       - postgresql
       - redis
+      - mailhog
     networks:
       - yii
 
@@ -63,5 +64,14 @@ services:
     restart: unless-stopped
     ports:
       - "7379:6379"
+    networks:
+      - yii
+
+#local mail service
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025" #smtp port for sending emails
+      - "8025:8025" #dashboard port for seeing emails in dashboard
     networks:
       - yii
