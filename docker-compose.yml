@@ -70,6 +70,7 @@ services:
 #local mail service
   mailhog:
     image: mailhog/mailhog:latest
+    container_name: yii_mailhog
     ports:
       - "1025:1025" #smtp port for sending emails
       - "8025:8025" #dashboard port for seeing emails in dashboard
