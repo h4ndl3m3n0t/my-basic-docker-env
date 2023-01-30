@@ -1,8 +1,5 @@
 #history folder
 .history
 
-#mariadb files
+#docker files
 docker
-
-#all insidex the src folder
-src/*

@@ -98,7 +98,7 @@ services:
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: yii_phpmyadmin
-    restart: unless-stopped #change
+    restart: unless-stopped
     ports:
       - "8090:80"
     environment:
